@@ -13,21 +13,37 @@ def colocar():
 
 def scramble(itens):
     # Código para o comando scramble
-    print('foi scramble')
+
+    print(itens)
 
 
 def dekey(itens):
     # Código para o comando dekey
-    print('foi dekey')
+    contador = itens[0]
+    lista = itens[1:]
+    for i in range(contador+1):
+        a = lista[0]
+        b = lista[1]
+        if a > b:
+            lista.insert(0, a)
+            lista.insert(len(lista), b)
+        print(lista)
 
 
 def go():
     item = fila.get()
 
     if item[1][0] == 'scramble':
-        scramble(item[1])
+        # Criação da string para manipulação pelo Scramble
+        string = item[1][1:]
+        string = ''.join(string)
+        scramble(string)  # Chamada da função Scrumble
+
     elif item[1][0] == 'dekey':
-        dekey(item[1])
+
+        lista = item[1][1:]
+        lista = list(map(int, lista))
+        dekey(lista)
 
 
 def stop():
@@ -47,4 +63,3 @@ while status:
     elif comando[0] == 'stop':
         status = False
         stop()
-
