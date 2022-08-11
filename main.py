@@ -21,13 +21,18 @@ def dekey(itens):
     # Código para o comando dekey
     contador = itens[0]
     lista = itens[1:]
-    for i in range(contador+1):
+    for i in range(contador):
         a = lista[0]
         b = lista[1]
         if a > b:
-            lista.insert(0, a)
-            lista.insert(len(lista), b)
-        print(lista)
+            lista[0] = a
+            lista[1:len(lista)+1] = lista[2:len(lista)+1]
+            lista.append(b)
+        elif a < b:
+            lista[0] = b
+            lista[1:len(lista) + 1] = lista[2:len(lista) + 1]
+            lista.append(a)
+    print(''.join(map(str, lista)))
 
 
 def go():
