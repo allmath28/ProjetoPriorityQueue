@@ -3,7 +3,7 @@ from queue import PriorityQueue
 fila = PriorityQueue(maxsize=0)
 
 status = True
-
+cont = 0
 
 def colocar():
     """Função para colocar na fila os processos"""
@@ -59,7 +59,8 @@ while status:
     comando = input().split()
     if comando[0] == 'enqueue':
 
-        for _ in range(int(comando[1])):
+        cont += int(comando[1])
+        for _ in range(cont):
             colocar()
 
     elif comando[0] == 'go':
