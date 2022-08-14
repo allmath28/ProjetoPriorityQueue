@@ -1,9 +1,11 @@
 from queue import PriorityQueue
+import re
 
 fila = PriorityQueue(maxsize=0)
 
 status = True
 cont = 0
+
 
 def colocar():
     """Função para colocar na fila os processos"""
@@ -14,7 +16,34 @@ def colocar():
 def scramble(itens):
     # Código para o comando scramble
 
-    print(itens)
+    texto = itens
+
+    contador = 0
+    linha = ''
+
+    for i in texto:
+        if i == '(':
+            contador += 1
+        elif i == ')' and contador:
+            contador -= contador
+        elif not contador:
+            linha += i
+
+    check = re.findall('\(([\w~_#&*]+)|([\w~_#&*]+)\)', texto)
+
+    linha = list(linha)
+
+    for i in check:
+        linha.insert(0, ''.join(i))
+
+    linha = ''.join(linha)
+    linha = linha.replace(")", "")
+    linha = linha.replace(' ', '')
+
+    if len(linha) > 0:
+        print(linha)
+    else:
+        pass
 
 
 def dekey(itens):
@@ -24,14 +53,15 @@ def dekey(itens):
     for i in range(contador):
         a = lista[0]
         b = lista[1]
-        if a > b:
-            lista[0] = a
-            lista[1:len(lista)+1] = lista[2:len(lista)+1]
-            lista.append(b)
-        elif a < b:
+
+        if a < b:
             lista[0] = b
             lista[1:len(lista) + 1] = lista[2:len(lista) + 1]
             lista.append(a)
+        else:
+            lista[0] = a
+            lista[1:len(lista) + 1] = lista[2:len(lista) + 1]
+            lista.append(b)
     print(''.join(map(str, lista)))
 
 
@@ -59,11 +89,11 @@ while status:
     comando = input().split()
     if comando[0] == 'enqueue':
 
-        cont += int(comando[1])
+        cont = int(comando[1])
         for _ in range(cont):
             colocar()
 
-    elif comando[0] == 'go':
+    elif comando[0] == 'go' and fila.qsize() > 0:
         go()
 
     elif comando[0] == 'stop':
